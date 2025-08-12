@@ -38,20 +38,18 @@ contract ExternalHook is BaseHook {
         });
     }
 
-    // -----------------------------------------------
-    // NOTE: see IHooks.sol for function documentation
-    // -----------------------------------------------
-
     function _beforeSwap(address, PoolKey calldata key, SwapParams calldata, bytes calldata)
         internal
         override
         returns (bytes4, BeforeSwapDelta, uint24)
-    {
-        
+    {       
         //@audit-issue => Incorrectly returning the LP_FEE to be overriden. Pool won't do the override and default fee for dynamicFee will be used, which is 0
         // return (BaseHook.beforeSwap.selector, BeforeSwapDeltaLibrary.ZERO_DELTA, uint24(1000));
 
         //@audit-ok => Correctly overriding the LP_FEE. Pool will override LP_FEE and will charged `overrideFee` as fee during the swap!
+        // uint256 overrideFee = 500 | uint256(LPFeeLibrary.OVERRIDE_FEE_FLAG);
+
+        //@audit-info => overrideFee as 0 to demonstrate how LP_FEES are not charged during the swap.
         uint256 overrideFee = 0 | uint256(LPFeeLibrary.OVERRIDE_FEE_FLAG);
         return (BaseHook.beforeSwap.selector, BeforeSwapDeltaLibrary.ZERO_DELTA, uint24(overrideFee));
     }
