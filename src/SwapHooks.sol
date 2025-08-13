@@ -12,7 +12,7 @@ import {BeforeSwapDelta, BeforeSwapDeltaLibrary} from "@uniswap/v4-core/src/type
 import {LPFeeLibrary} from "@uniswap/v4-core/src/libraries/LPFeeLibrary.sol";
 import {Currency} from "@uniswap/v4-core/src/types/Currency.sol";
 
-contract ExternalHook is BaseHook {
+contract SwapHooks is BaseHook {
     using PoolIdLibrary for PoolKey;
 
     uint256 public constant BPS_DENOMINATOR = 1000000;

@@ -22,9 +22,9 @@ import {Deployers} from "./utils/Deployers.sol";
 
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-import {ExternalHook} from "../src/ExternalHook.sol";
+import {SwapHooks} from "../src/SwapHooks.sol";
 
-contract ExternalHookTest is Test, Deployers {
+contract SwapHooksTest is Test, Deployers {
     using EasyPosm for IPositionManager;
     using PoolIdLibrary for PoolKey;
     using CurrencyLibrary for Currency;
@@ -35,7 +35,7 @@ contract ExternalHookTest is Test, Deployers {
 
     PoolKey poolKey;
 
-    ExternalHook hook;
+    SwapHooks hook;
     PoolId poolId;
 
     uint256 tokenId;
@@ -58,8 +58,8 @@ contract ExternalHookTest is Test, Deployers {
             ) ^ (0x4444 << 144) // Namespace the hook to avoid collisions
         );
         bytes memory constructorArgs = abi.encode(poolManager); // Add all the necessary constructor arguments from the hook
-        deployCodeTo("ExternalHook.sol:ExternalHook", constructorArgs, flags);
-        hook = ExternalHook(flags);
+        deployCodeTo("SwapHooks.sol:SwapHooks", constructorArgs, flags);
+        hook = SwapHooks(flags);
 
         // Create the pool
         poolKey = PoolKey({
